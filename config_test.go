@@ -6,14 +6,14 @@ import (
 	"testing"
 )
 
-func TestConfigurationParse(t *testing.T) {
+func TestParseConfiguration(t *testing.T) {
 
 	buffer := &bytes.Buffer{}
 	if _, err := buffer.WriteString(`{"Jobs":[{"ImportPath":"foo/bar/baz"}]}`); err != nil {
 		t.Error(err)
 	}
 
-	config, err := Parse(buffer)
+	config, err := ParseConfiguration(buffer)
 	if config == nil {
 		t.Fatal()
 	}
@@ -37,7 +37,7 @@ func TestKrakenConfiguration(t *testing.T) {
 	}
 	defer file.Close()
 
-	config, err := Parse(file)
+	config, err := ParseConfiguration(file)
 	if err != nil {
 		t.Fatal(err)
 	}
