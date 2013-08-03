@@ -1,3 +1,5 @@
+[![Build Status](https://drone.io/github.com/daniel-fanjul-alcuten/kraken/status.png)](https://drone.io/github.com/daniel-fanjul-alcuten/kraken/latest)
+
 build system with the following features:
 
 
