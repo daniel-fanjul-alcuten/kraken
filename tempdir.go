@@ -37,6 +37,6 @@ func (td *TempDir) Cleanup() []error {
 			errs = append(errs, err)
 		}
 	}
-	td.files = td.files[:0]
+	td.files = make([]string, 0, 8)
 	return errs
 }
