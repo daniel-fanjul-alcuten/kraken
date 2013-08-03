@@ -1,0 +1,9 @@
+#!/bin/bash
+command="$1" && shift || exit 1
+while read old new; do
+  :
+done
+if [ "$command" = rebase ]; then
+  head=$(git symbolic-ref HEAD 2>/dev/null)
+  kraken-push HEAD $head
+fi

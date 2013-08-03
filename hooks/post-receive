@@ -1,0 +1,6 @@
+#!/bin/bash
+refs=""
+while read old new ref; do
+  refs="$refs $ref"
+done
+kraken-push $refs

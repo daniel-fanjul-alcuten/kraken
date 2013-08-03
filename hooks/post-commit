@@ -1,0 +1,3 @@
+#!/bin/bash
+head=$(git symbolic-ref HEAD 2>/dev/null)
+kraken-push HEAD $head
