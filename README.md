@@ -147,3 +147,17 @@ git config kraken.repoquest $(hostname):$(pwd)
 kraken-submit refs/requests/<string>
 git for-each-ref refs/requests/ --format='%(refname)' | xargs kraken-submit
 </pre>
+
+Typical post-receive hook:
+
+<pre>
+#!/bin/bash
+refs=""
+while read old new ref; do
+  case $ref in
+    refs/requests/*)
+      refs2="$refs $ref";;
+  esac
+done
+kraken-submit $refs
+</pre>
