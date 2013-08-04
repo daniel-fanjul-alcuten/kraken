@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	. "github.com/daniel-fanjul-alcuten/kraken"
 	. "github.com/daniel-fanjul-alcuten/kraken/git"
 	"log"
 	"net"
@@ -17,9 +18,13 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Usage of %s: <request ref>+\n", os.Args[0])
 		flag.PrintDefaults()
 	}
+	version := flag.Bool("version", false, "Shows version")
 	address := flag.String("p", ":9345", "Address of kraken-graph")
 	flag.Parse()
-	args := flag.Args()
+
+	if *version {
+		ShowVersion()
+	}
 
 	git := NewGit("")
 	repoquest := getConfig(git, "kraken.repoquest")
@@ -29,6 +34,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	args := flag.Args()
 	if err := submit(git, repoquest, conn, args...); err != nil {
 		log.Fatal(err)
 	}

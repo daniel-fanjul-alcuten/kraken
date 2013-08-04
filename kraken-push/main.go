@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	. "github.com/daniel-fanjul-alcuten/kraken"
 	. "github.com/daniel-fanjul-alcuten/kraken/git"
 	. "github.com/daniel-fanjul-alcuten/kraken/push"
 	"log"
@@ -17,8 +18,12 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Usage of %s: <local ref>+\n", os.Args[0])
 		flag.PrintDefaults()
 	}
+	version := flag.Bool("version", false, "Shows version")
 	flag.Parse()
-	args := flag.Args()
+
+	if *version {
+		ShowVersion()
+	}
 
 	git := NewGit("")
 	url := getConfig(git, "remote.kraken.url")
@@ -29,6 +34,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	args := flag.Args()
 	if _, err := Push(git, url, host, repository, args...); err != nil {
 		log.Fatal(err)
 	}

@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	. "github.com/daniel-fanjul-alcuten/kraken"
 	. "github.com/daniel-fanjul-alcuten/kraken/gob"
 	"log"
 	"net"
@@ -15,8 +16,13 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
 		flag.PrintDefaults()
 	}
+	version := flag.Bool("version", false, "Shows version")
 	address := flag.String("p", ":9345", "Address to listen requests")
 	flag.Parse()
+
+	if *version {
+		ShowVersion()
+	}
 
 	listener, err := net.Listen("tcp", *address)
 	if err != nil {
