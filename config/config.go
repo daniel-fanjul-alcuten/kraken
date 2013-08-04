@@ -5,17 +5,23 @@ import (
 	"io"
 )
 
-type GoRepositoryJob struct {
+// A go getable repository.
+type GoJobConfig struct {
+	// The folder where the sources must be placed: $GOPATH/src/<ImportPath>/<working copy>
 	ImportPath string
 }
 
-type Configuration struct {
-	Jobs []GoRepositoryJob
+// The configuration of the project is a list of jobs, that can run in different workers, be cached, and depend on others.
+type Config struct {
+	Jobs []GoJobConfig
 }
 
-func ParseConfiguration(reader io.Reader) (*Configuration, error) {
+func (config *Config) Decode(reader io.Reader) error {
 	decoder := json.NewDecoder(reader)
-	var config Configuration
-	err := decoder.Decode(&config)
-	return &config, err
+	return decoder.Decode(config)
+}
+
+func (config *Config) Encode(writer io.Writer) error {
+	encoder := json.NewEncoder(writer)
+	return encoder.Encode(config)
 }

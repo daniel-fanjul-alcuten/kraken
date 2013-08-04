@@ -49,13 +49,13 @@ func submit(git *Git, repoquest string, conn io.Writer, requests ...string) erro
 		if err != nil {
 			return fmt.Errorf("git show: kraken.json not found: %s", err)
 		}
-		configuration, err := ParseConfiguration(bytes.NewBuffer(output))
-		if err != nil {
+		var config Config
+		if config.Decode(bytes.NewBuffer(output)); err != nil {
 			return fmt.Errorf("json deconding: kraken.json: %s", err)
 		}
 
-		jobs := make([]GoJob, len(configuration.Jobs))
-		for i, job := range configuration.Jobs {
+		jobs := make([]GoJob, len(config.Jobs))
+		for i, job := range config.Jobs {
 			jobs[i] = GoJob{job.ImportPath}
 		}
 
