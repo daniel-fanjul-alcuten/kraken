@@ -45,6 +45,11 @@ Optional git config entries:
 
 * _remote.kraken.skipDefaultUpdate_: some users can find this property useful.
 
+Usage:
+<pre>
+Usage of kraken-push: &lt;local ref&gt;+
+</pre>
+
 Typical command line:
 
 <pre>
@@ -98,4 +103,47 @@ while read old new ref; do
   refs="$refs $ref"
 done
 kraken-push $refs
+</pre>
+
+kraken-graph
+------------
+
+kraken-graph keeps a graph with all requests in memory and listens a port to accept new requests.
+
+Usage:
+<pre>
+Usage of kraken-graph:
+  -p=":9345": Address to listen requests
+</pre>
+
+Typical command line:
+
+<pre>
+kraken-graph -p :12345
+</pre>
+
+kraken-submit
+------------
+
+kraken-submit sends the metadata of the requests from a local repository to a kraken-graph.
+
+It transfers the request encoded as [gobs](http://golang.org/pkg/encoding/gob/) through plain sockets.
+
+Mandatory git config entries:
+
+* _kraken.repoquest_: the public url of the repository.
+
+Usage:
+<pre>
+Usage of kraken-submit: &lt;request ref&gt;+
+  -p=":9345": Address of kraken-graph
+</pre>
+
+Typical command line:
+
+<pre>
+git config kraken.repoquest $(hostname):$(pwd)
+
+kraken-submit refs/requests/<string>
+git for-each-ref refs/requests/ --format='%(refname)' | xargs kraken-submit
 </pre>
