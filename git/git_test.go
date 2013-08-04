@@ -29,6 +29,22 @@ func TestGitInit(t *testing.T) {
 	}
 }
 
+func TestGitInitError(t *testing.T) {
+
+	td := NewTempDir("")
+	defer td.Cleanup()
+
+	dir, err := td.NewDir()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	git := NewGitFullPath("git-unknown", dir)
+	if err := git.Init(); err == nil {
+		t.Error()
+	}
+}
+
 func TestGitInitBare(t *testing.T) {
 
 	td := NewTempDir("")
@@ -50,7 +66,23 @@ func TestGitInitBare(t *testing.T) {
 	}
 }
 
-func TestGitGetConfig(t *testing.T) {
+func TestGitInitBareError(t *testing.T) {
+
+	td := NewTempDir("")
+	defer td.Cleanup()
+
+	dir, err := td.NewDir()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	git := NewGitFullPath("git-unknown", dir)
+	if err := git.InitBare(); err == nil {
+		t.Error(err)
+	}
+}
+
+func TestGitConfig(t *testing.T) {
 
 	td := NewTempDir("")
 	defer td.Cleanup()
@@ -72,6 +104,29 @@ func TestGitGetConfig(t *testing.T) {
 		t.Error(err)
 	} else if value != "baz" {
 		t.Error(value)
+	}
+}
+
+func TestGitConfigError(t *testing.T) {
+
+	td := NewTempDir("")
+	defer td.Cleanup()
+
+	dir, err := td.NewDir()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	git := NewGitFullPath("git-unknown", dir)
+	if err := git.InitBare(); err == nil {
+		t.Error(err)
+	}
+
+	if err := git.SetConfig("foo.bar", "baz"); err == nil {
+		t.Error(err)
+	}
+	if _, err := git.Config("foo.bar"); err == nil {
+		t.Error(err)
 	}
 }
 
