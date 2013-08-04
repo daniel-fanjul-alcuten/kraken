@@ -7,7 +7,6 @@ import (
 	. "github.com/daniel-fanjul-alcuten/kraken/push"
 	"log"
 	"os"
-	"strings"
 )
 
 func main() {
@@ -36,9 +35,9 @@ func main() {
 }
 
 func getConfig(git *Git, name string) string {
-	output, err := git.Cmd("config", name).Output()
+	value, err := git.Config(name)
 	if err != nil {
-		log.Fatalf("git config %s: not found", name)
+		log.Fatal(err)
 	}
-	return strings.TrimSpace(string(output))
+	return value
 }

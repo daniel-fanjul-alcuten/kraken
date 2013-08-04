@@ -50,6 +50,31 @@ func TestGitInitBare(t *testing.T) {
 	}
 }
 
+func TestGitGetConfig(t *testing.T) {
+
+	td := NewTempDir("")
+	defer td.Cleanup()
+
+	dir, err := td.NewDir()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	git := NewGit(dir)
+	if err := git.InitBare(); err != nil {
+		t.Error(err)
+	}
+
+	if err := git.SetConfig("foo.bar", "baz"); err != nil {
+		t.Error(err)
+	}
+	if value, err := git.Config("foo.bar"); err != nil {
+		t.Error(err)
+	} else if value != "baz" {
+		t.Error(value)
+	}
+}
+
 func TestGitCmd(t *testing.T) {
 
 	td := NewTempDir("")
