@@ -31,7 +31,7 @@ func TestParseConfiguration(t *testing.T) {
 
 func TestKrakenConfiguration(t *testing.T) {
 
-	file, err := os.Open("kraken.json")
+	file, err := os.Open("../kraken.json")
 	if err != nil {
 		t.Fatal(err)
 	}

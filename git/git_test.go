@@ -1,6 +1,7 @@
 package kraken
 
 import (
+	. "github.com/daniel-fanjul-alcuten/kraken/ioutil"
 	"os"
 	"path"
 	"strings"

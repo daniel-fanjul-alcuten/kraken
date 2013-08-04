@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	. "github.com/daniel-fanjul-alcuten/kraken"
+	. "github.com/daniel-fanjul-alcuten/kraken/git"
 	"log"
 	"os"
 	"strings"

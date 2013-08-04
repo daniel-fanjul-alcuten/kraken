@@ -2,7 +2,8 @@ package main
 
 import (
 	"bytes"
-	. "github.com/daniel-fanjul-alcuten/kraken"
+	. "github.com/daniel-fanjul-alcuten/kraken/git"
+	. "github.com/daniel-fanjul-alcuten/kraken/ioutil"
 	"io/ioutil"
 	"path"
 	"strings"

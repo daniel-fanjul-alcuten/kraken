@@ -5,7 +5,8 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
-	. "github.com/daniel-fanjul-alcuten/kraken"
+	. "github.com/daniel-fanjul-alcuten/kraken/git"
+	. "github.com/daniel-fanjul-alcuten/kraken/request"
 	"strings"
 	"time"
 )
