@@ -144,7 +144,7 @@ Typical command line:
 <pre>
 git config kraken.repoquest $(hostname):$(pwd)
 
-kraken-submit refs/requests/<string>
+kraken-submit refs/requests/&lt;string&gt;
 git for-each-ref refs/requests/ --format='%(refname)' | xargs kraken-submit
 </pre>
 
