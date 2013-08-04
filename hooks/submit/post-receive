@@ -1,0 +1,9 @@
+#!/bin/bash
+refs=""
+while read old new ref; do
+  case $ref in
+    refs/requests/*)
+      refs2="$refs $ref";;
+  esac
+done
+kraken-submit $refs
