@@ -8,7 +8,7 @@ import (
 	. "github.com/daniel-fanjul-alcuten/kraken/config"
 	. "github.com/daniel-fanjul-alcuten/kraken/git"
 	. "github.com/daniel-fanjul-alcuten/kraken/gob"
-	r "github.com/daniel-fanjul-alcuten/kraken/request"
+	. "github.com/daniel-fanjul-alcuten/kraken/json"
 	"io"
 	"strconv"
 	"strings"
@@ -37,12 +37,12 @@ func submit(git *Git, repoquest string, conn io.Writer, requests ...string) erro
 				time, _ = strconv.ParseInt(split[len(split)-2], 10, 64)
 			}
 			buffer.ReadString('\n') // remove empty line
-			req, err := r.ParseRequest(buffer)
-			if err != nil {
+			var ref RequestRef
+			if err := ref.Decode(buffer); err != nil {
 				return fmt.Errorf("json decoding: request: %s", err)
 			}
-			repository = req.Repository
-			reference = req.Reference
+			repository = ref.Repository
+			reference = ref.Reference
 		}
 
 		output, err := git.Cmd("show", request+":kraken.json").Output()

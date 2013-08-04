@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	. "github.com/daniel-fanjul-alcuten/kraken/git"
-	. "github.com/daniel-fanjul-alcuten/kraken/request"
+	. "github.com/daniel-fanjul-alcuten/kraken/json"
 	"strings"
 	"time"
 )
@@ -56,7 +56,7 @@ func Push(git *Git, url, host, name string, refs ...string) ([]string, error) {
 		_, zone := now.Zone()
 		fmt.Fprintf(buffer, " %+03d00\n\n", zone/3600)
 		encoder := json.NewEncoder(buffer)
-		if err := encoder.Encode(Request{name, fullref}); err != nil {
+		if err := encoder.Encode(RequestRef{name, fullref}); err != nil {
 			return nil, fmt.Errorf("json encoding: %s", err)
 		}
 
