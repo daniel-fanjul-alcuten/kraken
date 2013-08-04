@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	. "github.com/daniel-fanjul-alcuten/kraken/git"
+	. "github.com/daniel-fanjul-alcuten/kraken/push"
 	"log"
 	"os"
 	"strings"
@@ -29,7 +30,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if _, err := push(git, url, host, repository, args...); err != nil {
+	if _, err := Push(git, url, host, repository, args...); err != nil {
 		log.Fatal(err)
 	}
 }

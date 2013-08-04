@@ -1,4 +1,4 @@
-package main
+package kraken
 
 import (
 	"bytes"
@@ -39,13 +39,12 @@ func TestPush(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
 	git2 := NewGit(dir2)
 	if err := git2.InitBare(); err != nil {
 		t.Error(err)
 	}
 
-	refs, err := push(git, dir2, "host", "repo", "master")
+	refs, err := Push(git, dir2, "host", "repo", "master")
 	if err != nil {
 		t.Error(err)
 	}

@@ -1,4 +1,4 @@
-package main
+package kraken
 
 import (
 	"bytes"
@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func push(git *Git, url, host, name string, refs ...string) ([]string, error) {
+func Push(git *Git, url, host, name string, refs ...string) ([]string, error) {
 
 	now := time.Now()
 
