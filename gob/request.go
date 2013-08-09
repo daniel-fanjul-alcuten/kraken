@@ -1,6 +1,6 @@
 package kraken
 
-type GoJob struct {
+type GoGetRequest struct {
 	ImportPath string
 }
 
@@ -8,5 +8,5 @@ type Request struct {
 	Repoquest, Request    string
 	Repository, Reference string
 	Time                  int64
-	Jobs                  []GoJob
+	Jobs                  []GoGetRequest
 }

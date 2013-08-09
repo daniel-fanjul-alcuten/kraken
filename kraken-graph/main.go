@@ -5,6 +5,7 @@ import (
 	"fmt"
 	. "github.com/daniel-fanjul-alcuten/kraken"
 	. "github.com/daniel-fanjul-alcuten/kraken/gob"
+	. "github.com/daniel-fanjul-alcuten/kraken/queue"
 	"log"
 	"net"
 	"os"
@@ -36,11 +37,17 @@ func main() {
 		errs <- listen(listener, requests)
 	}()
 
+	queue := NewQueue(1024)
+	input := queue.GetInput()
 	go func() {
 		g := newGraph()
 		for request := range requests {
 			log.Printf("%#v", request)
-			g.addRequest(request)
+			jobs := g.addRequest(request)
+			for _, job := range jobs {
+				log.Printf("%#v", job)
+				input <- job
+			}
 		}
 	}()
 

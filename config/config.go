@@ -6,14 +6,14 @@ import (
 )
 
 // A go getable repository.
-type GoJobConfig struct {
+type GoGetConfig struct {
 	// The folder where the sources must be placed: $GOPATH/src/<ImportPath>/<working copy>
 	ImportPath string
 }
 
 // The configuration of the project is a list of jobs, that can run in different workers, be cached, and depend on others.
 type Config struct {
-	Jobs []GoJobConfig
+	Jobs []GoGetConfig
 }
 
 func (config *Config) Decode(reader io.Reader) error {

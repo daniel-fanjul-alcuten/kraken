@@ -23,7 +23,7 @@ func TestEncode(t *testing.T) {
 
 	buffer := &bytes.Buffer{}
 
-	config := &Config{[]GoJobConfig{GoJobConfig{"foo/bar/baz"}}}
+	config := &Config{[]GoGetConfig{GoGetConfig{"foo/bar/baz"}}}
 	if err := config.Encode(buffer); err != nil {
 		t.Error(err)
 	}
@@ -38,7 +38,7 @@ func TestDecode(t *testing.T) {
 
 	buffer := &bytes.Buffer{}
 
-	config1 := &Config{[]GoJobConfig{GoJobConfig{"foo/bar/baz"}}}
+	config1 := &Config{[]GoGetConfig{GoGetConfig{"foo/bar/baz"}}}
 	if err := config1.Encode(buffer); err != nil {
 		t.Error(err)
 	}
@@ -60,7 +60,7 @@ func TestKrakenConfiguration(t *testing.T) {
 	}
 	defer file.Close()
 
-	config1 := &Config{[]GoJobConfig{GoJobConfig{"github.com/daniel-fanjul-alcuten/kraken"}}}
+	config1 := &Config{[]GoGetConfig{GoGetConfig{"github.com/daniel-fanjul-alcuten/kraken"}}}
 
 	var config2 Config
 	if err := config2.Decode(file); err != nil {

@@ -1,5 +1,9 @@
 package main
 
+import (
+	. "github.com/daniel-fanjul-alcuten/kraken/gob"
+)
+
 //// to compile a go get-able repository
 type gojob struct {
 	importPath string
@@ -47,4 +51,10 @@ func newGraph() *graph {
 	repoquests := make(map[string]*repoquest)
 	repositories := make(map[string]*repository)
 	return &graph{repoquests, repositories}
+}
+
+func (j *gojob) goGetJob() GoGetJob {
+	repoquest := j.request.repoquest.name
+	request := j.request.ref
+	return GoGetJob{j.importPath, repoquest, request}
 }

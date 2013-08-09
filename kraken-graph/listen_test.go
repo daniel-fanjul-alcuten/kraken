@@ -32,7 +32,7 @@ func TestListen(t *testing.T) {
 
 	writer := bufio.NewWriter(conn)
 	encoder := gob.NewEncoder(writer)
-	if err := encoder.Encode(Request{"rq", "req", "repo", "ref", 5, []GoJob{GoJob{"ip"}}}); err != nil {
+	if err := encoder.Encode(Request{"rq", "req", "repo", "ref", 5, []GoGetRequest{GoGetRequest{"ip"}}}); err != nil {
 		t.Error(err)
 	}
 	if err := writer.Flush(); err != nil {

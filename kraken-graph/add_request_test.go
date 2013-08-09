@@ -15,7 +15,7 @@ func TestAddRequest(t *testing.T) {
 	importPath := "github.com/daniel-fanjul-alcuten/kraken"
 
 	g := newGraph()
-	jobs := []GoJob{GoJob{importPath}}
+	jobs := []GoGetRequest{GoGetRequest{importPath}}
 	rjobs := g.addRequest(Request{repoquest, request, repository, reference, time, jobs})
 
 	rq := g.repoquests[repoquest]
@@ -89,7 +89,15 @@ func TestAddRequest(t *testing.T) {
 
 	if len(rjobs) != 1 {
 		t.Error(len(rjobs))
-	} else if rjobs[0].importPath != importPath {
-		t.Error(rjobs[0].importPath)
+	} else {
+		if rjobs[0].ImportPath != importPath {
+			t.Error(rjobs[0].ImportPath)
+		}
+		if rjobs[0].Repoquest != repoquest {
+			t.Error(rjobs[0].Repoquest)
+		}
+		if rjobs[0].Request != request {
+			t.Error(rjobs[0].Request)
+		}
 	}
 }

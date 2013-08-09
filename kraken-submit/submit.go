@@ -54,9 +54,9 @@ func submit(git *Git, repoquest string, conn io.Writer, requests ...string) erro
 			return fmt.Errorf("json deconding: kraken.json: %s", err)
 		}
 
-		jobs := make([]GoJob, len(config.Jobs))
+		jobs := make([]GoGetRequest, len(config.Jobs))
 		for i, job := range config.Jobs {
-			jobs[i] = GoJob{job.ImportPath}
+			jobs[i] = GoGetRequest{job.ImportPath}
 		}
 
 		req := Request{repoquest, request, repository, reference, time, jobs}
