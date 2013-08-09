@@ -25,13 +25,13 @@ func TestPush(t *testing.T) {
 	}
 
 	git := NewGit(dir)
-	if err := git.Init(); err != nil {
+	if _, err := git.Run(nil, "init"); err != nil {
 		t.Error(err)
 	}
-	if err := git.Cmd("add", "-A").Run(); err != nil {
+	if _, err := git.Run(nil, "add", "-A"); err != nil {
 		t.Error(err)
 	}
-	if err := git.Cmd("commit", "-m", "foo").Run(); err != nil {
+	if _, err := git.Run(nil, "commit", "-m", "foo"); err != nil {
 		t.Error(err)
 	}
 
@@ -40,7 +40,7 @@ func TestPush(t *testing.T) {
 		t.Error(err)
 	}
 	git2 := NewGit(dir2)
-	if err := git2.InitBare(); err != nil {
+	if _, err := git2.Run(nil, "init", "--bare"); err != nil {
 		t.Error(err)
 	}
 
@@ -52,10 +52,10 @@ func TestPush(t *testing.T) {
 	if len(refs) != 1 {
 		t.Error(len(refs))
 	}
-	if err := git2.Cmd("show", refs[0]+":foo").Run(); err != nil {
+	if _, err := git2.Run(nil, "show", refs[0]+":foo"); err != nil {
 		t.Error(err)
 	}
-	if output, err := git2.Cmd("cat-file", "tag", refs[0]).Output(); err != nil {
+	if output, err := git2.Run(nil, "cat-file", "tag", refs[0]); err != nil {
 		t.Error(err)
 	} else {
 		buffer := bytes.NewBuffer(output)

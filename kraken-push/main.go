@@ -41,7 +41,7 @@ func main() {
 }
 
 func getConfig(git *Git, name string) string {
-	value, err := git.Config(name)
+	value, err := git.String(nil, "config", name)
 	if err != nil {
 		log.Fatal(err)
 	}

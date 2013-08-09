@@ -7,7 +7,6 @@ import (
 	"fmt"
 	. "github.com/daniel-fanjul-alcuten/kraken/git"
 	. "github.com/daniel-fanjul-alcuten/kraken/json"
-	"strings"
 	"time"
 )
 
@@ -21,21 +20,22 @@ func Push(git *Git, url, host, name string, refs ...string) ([]string, error) {
 	for _, ref := range refs {
 
 		var hash string
-		if output, err := git.Cmd("rev-parse", ref).Output(); err != nil {
-			return nil, fmt.Errorf("rev-parse %s: %s", ref, err)
-		} else {
-			hash = strings.TrimSpace(string(output))
+		hash, err := git.String(nil, "rev-parse", ref)
+		if err != nil {
+			return nil, err
 		}
 
 		var fullref string
 		if ref == "HEAD" {
 			fullref = ref
-		} else if output, err := git.Cmd("rev-parse", "--verify", "--symbolic-full-name", ref).Output(); err != nil {
-			return nil, fmt.Errorf("rev-parse %s: %s", ref, err)
 		} else {
-			fullref = strings.TrimSpace(string(output))
-			if fullref == "" {
-				fullref = hash
+			fullref, err = git.String(nil, "rev-parse", "--verify", "--symbolic-full-name", ref)
+			if err != nil {
+				return nil, err
+			} else {
+				if fullref == "" {
+					fullref = hash
+				}
 			}
 		}
 
@@ -60,20 +60,17 @@ func Push(git *Git, url, host, name string, refs ...string) ([]string, error) {
 			return nil, fmt.Errorf("json encoding: %s", err)
 		}
 
-		cmd := git.Cmd("mktag")
-		cmd.Stdin = buffer
-		if output, err := cmd.Output(); err != nil {
-			return nil, fmt.Errorf("git mktag: %s", err)
+		if hash, err := git.String(buffer, "mktag"); err != nil {
+			return nil, err
 		} else {
-			hash := strings.TrimSpace(string(output))
 			request := "refs/requests/" + requestId
 			requests = append(requests, request)
 			pushArgs = append(pushArgs, hash+":"+request)
 		}
 	}
 
-	if err := git.Cmd(pushArgs...).Run(); err != nil {
-		return nil, fmt.Errorf("git push: %s", err)
+	if _, err := git.Run(nil, pushArgs...); err != nil {
+		return nil, err
 	}
 
 	return requests, nil

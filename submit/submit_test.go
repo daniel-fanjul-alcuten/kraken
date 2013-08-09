@@ -28,13 +28,13 @@ func TestSubmit(t *testing.T) {
 	}
 
 	git := NewGit(dir)
-	if err := git.Init(); err != nil {
+	if _, err := git.Run(nil, "init"); err != nil {
 		t.Error(err)
 	}
-	if err := git.Cmd("add", "-A").Run(); err != nil {
+	if _, err := git.Run(nil, "add", "-A"); err != nil {
 		t.Error(err)
 	}
-	if err := git.Cmd("commit", "-m", "foo").Run(); err != nil {
+	if _, err := git.Run(nil, "commit", "-m", "foo"); err != nil {
 		t.Error(err)
 	}
 
@@ -43,7 +43,7 @@ func TestSubmit(t *testing.T) {
 		t.Error(err)
 	}
 	git2 := NewGit(dir2)
-	if err := git2.InitBare(); err != nil {
+	if _, err := git2.Run(nil, "init", "--bare"); err != nil {
 		t.Error(err)
 	}
 

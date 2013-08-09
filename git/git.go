@@ -2,6 +2,7 @@ package kraken
 
 import (
 	"fmt"
+	"io"
 	"os/exec"
 	"strings"
 )
@@ -26,42 +27,25 @@ func (g *Git) Dir() string {
 	return g.dir
 }
 
-// Run 'git init'
-func (g *Git) Init() error {
-	if err := exec.Command(g.git, "init", g.dir).Run(); err != nil {
-		return fmt.Errorf("git init %s: %s", g.dir, err)
-	}
-	return nil
-}
-
-// Run 'git init --bare'
-func (g *Git) InitBare() error {
-	if err := exec.Command(g.git, "init", "--bare", g.dir).Run(); err != nil {
-		return fmt.Errorf("git init --bare %s: %s", g.dir, err)
-	}
-	return nil
-}
-
-// Run 'git config <name> <value>'
-func (g *Git) SetConfig(name, value string) error {
-	if err := g.Cmd("config", name, value).Run(); err != nil {
-		return fmt.Errorf("git config %s %s: %s", name, value, err)
-	}
-	return nil
-}
-
-// Run 'git config <name>'
-func (g *Git) Config(name string) (string, error) {
-	output, err := g.Cmd("config", name).Output()
-	if err != nil {
-		return "", fmt.Errorf("git config %s: %s", name, err)
-	}
-	return strings.TrimSpace(string(output)), nil
-}
-
-// Run 'git <args>...'
-func (g *Git) Cmd(args ...string) *exec.Cmd {
+// Run 'git <args>'
+func (g *Git) Run(stdin io.Reader, args ...string) ([]byte, error) {
 	cmd := exec.Command(g.git, args...)
 	cmd.Dir = g.dir
-	return cmd
+	if stdin != nil {
+		cmd.Stdin = stdin
+	}
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return output, fmt.Errorf("git %s: %s:\n%s\n", strings.Join(args, " "), err, output)
+	}
+	return output, nil
+}
+
+// Run 'git <args>'
+func (g *Git) String(stdin io.Reader, args ...string) (string, error) {
+	output, err := g.Run(stdin, args...)
+	if err == nil {
+		return strings.TrimSpace(string(output)), err
+	}
+	return string(output), err
 }

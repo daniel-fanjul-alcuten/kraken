@@ -24,8 +24,8 @@ func Submit(git *Git, repoquest string, writer io.Writer, requests ...string) er
 		repository := ""
 		reference := ""
 		time := int64(0)
-		if output, err := git.Cmd("cat-file", "tag", request).Output(); err != nil {
-			return fmt.Errorf("git cat-file: %s", err)
+		if output, err := git.Run(nil, "cat-file", "tag", request); err != nil {
+			return err
 		} else {
 			buffer := bytes.NewBuffer(output)
 			buffer.ReadString('\n')              // remove object
@@ -45,9 +45,9 @@ func Submit(git *Git, repoquest string, writer io.Writer, requests ...string) er
 			reference = ref.Reference
 		}
 
-		output, err := git.Cmd("show", request+":kraken.json").Output()
+		output, err := git.Run(nil, "show", request+":kraken.json")
 		if err != nil {
-			return fmt.Errorf("git show: kraken.json not found: %s", err)
+			return err
 		}
 		var config Config
 		if config.Decode(bytes.NewBuffer(output)); err != nil {
