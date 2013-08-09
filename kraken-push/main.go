@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	. "github.com/daniel-fanjul-alcuten/kraken"
 	. "github.com/daniel-fanjul-alcuten/kraken/git"
 	. "github.com/daniel-fanjul-alcuten/kraken/push"
+	. "github.com/daniel-fanjul-alcuten/kraken/version"
 	"log"
 	"os"
 )

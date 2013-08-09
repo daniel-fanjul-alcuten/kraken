@@ -50,6 +50,7 @@ Optional git config entries:
 Usage:
 <pre>
 Usage of kraken-push: &lt;local ref&gt;+
+  -version=false: Shows version
 </pre>
 
 Typical command line:
@@ -116,6 +117,7 @@ Usage:
 <pre>
 Usage of kraken-graph:
   -p=":9345": Address to listen requests
+  -version=false: Shows version
 </pre>
 
 Typical command line:
@@ -139,6 +141,7 @@ Usage:
 <pre>
 Usage of kraken-submit: &lt;request ref&gt;+
   -p=":9345": Address of kraken-graph
+  -version=false: Shows version
 </pre>
 
 Typical command line:
