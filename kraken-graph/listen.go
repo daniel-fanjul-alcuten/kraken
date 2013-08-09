@@ -27,6 +27,4 @@ func listen(listener net.Listener, requests chan<- Request) error {
 			}
 		}(conn)
 	}
-
-	return nil
 }
