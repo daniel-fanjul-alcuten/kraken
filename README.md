@@ -116,14 +116,14 @@ kraken-graph keeps a graph with all requests in memory and listens a port to acc
 Usage:
 <pre>
 Usage of kraken-graph:
-  -p=":9345": Address to listen requests
+  -r=":9345": Address to listen requests
   -version=false: Shows version
 </pre>
 
 Typical command line:
 
 <pre>
-kraken-graph -p :12345
+kraken-graph -r :12345
 </pre>
 
 kraken-submit
@@ -140,7 +140,7 @@ Mandatory git config entries:
 Usage:
 <pre>
 Usage of kraken-submit: &lt;request ref&gt;+
-  -p=":9345": Address of kraken-graph
+  -r=":9345": Address where kraken-graph listens requests
   -version=false: Shows version
 </pre>
 

@@ -20,7 +20,7 @@ func main() {
 		flag.PrintDefaults()
 	}
 	version := flag.Bool("version", false, "Shows version")
-	address := flag.String("p", ":9345", "Address of kraken-graph")
+	address := flag.String("r", ":9345", "Address where kraken-graph listens requests")
 	flag.Parse()
 
 	if *version {

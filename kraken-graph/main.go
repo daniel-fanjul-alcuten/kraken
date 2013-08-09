@@ -19,7 +19,7 @@ func main() {
 		flag.PrintDefaults()
 	}
 	version := flag.Bool("version", false, "Shows version")
-	address := flag.String("p", ":9345", "Address to listen requests")
+	address := flag.String("r", ":9345", "Address to listen requests")
 	flag.Parse()
 
 	if *version {
