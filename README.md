@@ -32,6 +32,7 @@ Use 'go get':
 go get github.com/daniel-fanjul-alcuten/kraken/kraken-push
 go get github.com/daniel-fanjul-alcuten/kraken/kraken-graph
 go get github.com/daniel-fanjul-alcuten/kraken/kraken-submit
+go install github.com/daniel-fanjul-alcuten/kraken/krak
 </pre>
 
 Deploy
