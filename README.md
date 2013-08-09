@@ -21,7 +21,9 @@ Compilation
 
 Use 'go get':
 <pre>
-go get github.com/daniel-fanjul-alcuten/kraken
+go get github.com/daniel-fanjul-alcuten/kraken/kraken-push
+go get github.com/daniel-fanjul-alcuten/kraken/kraken-graph
+go get github.com/daniel-fanjul-alcuten/kraken/kraken-submit
 </pre>
 
 Deploy
