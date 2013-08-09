@@ -19,14 +19,20 @@ func main() {
 		flag.PrintDefaults()
 	}
 	version := flag.Bool("version", false, "Shows version")
-	address := flag.String("r", ":9345", "Address to listen requests")
+	reqAddress := flag.String("r", ":9345", "Address to listen requests")
+	jobAddress := flag.String("j", ":9346", "Address to listen to send jobs")
 	flag.Parse()
 
 	if *version {
 		ShowVersion()
 	}
 
-	listener, err := net.Listen("tcp", *address)
+	reqListener, err := net.Listen("tcp", *reqAddress)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	jobListener, err := net.Listen("tcp", *jobAddress)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,19 +40,34 @@ func main() {
 	requests := make(chan Request, 1024)
 	errs := make(chan error, 1)
 	go func() {
-		errs <- listen(listener, requests)
+		errs <- listen(reqListener, &requestHandler{requests})
 	}()
 
-	queue := NewQueue(1024)
+	queue := NewQueue(10 * 1024)
+	results := make(chan result, 64)
+	go func() {
+		errs <- listen(jobListener, &jobHandler{queue, results})
+	}()
+
 	input := queue.GetInput()
 	go func() {
 		g := NewGraph()
 		for request := range requests {
-			log.Printf("%#v", request)
+			log.Printf("New Request: %#v", request)
 			jobs := g.AddRequest(request)
 			for _, job := range jobs {
-				log.Printf("%#v", job)
+				log.Printf("New Job: %#v", job)
 				input <- job
+			}
+		}
+	}()
+
+	go func() {
+		for result := range results {
+			if result.ack {
+				log.Printf("New Result: %v for %#v", result.result.Success, result.job)
+			} else {
+				log.Printf("Lost Result: %#v", result.job)
 			}
 		}
 	}()

@@ -1,13 +1,15 @@
 package main
 
 import (
-	"bufio"
-	"encoding/gob"
-	. "github.com/daniel-fanjul-alcuten/kraken/gob"
+	"io"
 	"net"
 )
 
-func listen(listener net.Listener, requests chan<- Request) error {
+type handler interface {
+	handle(reader io.Reader, writer io.Writer) error
+}
+
+func listen(listener net.Listener, handler handler) error {
 
 	for {
 		conn, err := listener.Accept()
@@ -15,17 +17,9 @@ func listen(listener net.Listener, requests chan<- Request) error {
 			return err
 		}
 
-		go func(fconn net.Conn) {
-			defer fconn.Close()
-			reader := bufio.NewReader(fconn)
-			decoder := gob.NewDecoder(reader)
-			var request Request
-			for {
-				if err := decoder.Decode(&request); err != nil {
-					break
-				}
-				requests <- request
-			}
-		}(conn)
+		go func() {
+			defer conn.Close()
+			handler.handle(conn, conn)
+		}()
 	}
 }
