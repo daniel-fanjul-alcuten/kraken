@@ -5,7 +5,15 @@ Description
 
 build system with the following features:
 
-* no one at the moment
+* golang
+ * compile and test repositories that are go-getable
+
+that is not ready for production because of:
+
+* golang
+ * does compile remotely only
+ * does not manage different versions of compilers
+ * does not manage different platforms
 
 that will have these others in the future:
 
@@ -111,11 +119,12 @@ kraken-push $refs
 kraken-graph
 ------------
 
-kraken-graph keeps a graph with all requests in memory and listens a port to accept new requests.
+kraken-graph keeps a graph with all requests in memory and listens two ports: one to accept new requests and another to serve jobs to the workers.
 
 Usage:
 <pre>
 Usage of kraken-graph:
+  -j=":9346": Address to listen to send jobs
   -r=":9345": Address to listen requests
   -version=false: Shows version
 </pre>
@@ -123,7 +132,7 @@ Usage of kraken-graph:
 Typical command line:
 
 <pre>
-kraken-graph -r :12345
+kraken-graph -r :12345 -j :12346
 </pre>
 
 kraken-submit
@@ -165,4 +174,24 @@ while read old new ref; do
   esac
 done
 kraken-submit $refs
+</pre>
+
+kraken-work
+------------
+
+kraken-work gets jobs from a kraken-graph and executes them.
+
+It transfers the jobs encoded as [gobs](http://golang.org/pkg/encoding/gob/) through plain sockets.
+
+Usage:
+<pre>
+Usage of kraken-work:
+  -j=":9346": Address where kraken-graph sends jobs
+  -version=false: Shows version
+</pre>
+
+Typical command line:
+
+<pre>
+kraken-work -j :12346
 </pre>
