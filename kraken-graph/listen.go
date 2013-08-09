@@ -16,6 +16,7 @@ func listen(listener net.Listener, requests chan<- Request) error {
 		}
 
 		go func(fconn net.Conn) {
+			defer fconn.Close()
 			reader := bufio.NewReader(fconn)
 			decoder := gob.NewDecoder(reader)
 			var request Request
