@@ -22,6 +22,10 @@ func NewGitFullPath(git, dir string) *Git {
 	return &Git{git, dir}
 }
 
+func (g *Git) Dir() string {
+	return g.dir
+}
+
 // Run 'git init'
 func (g *Git) Init() error {
 	if err := exec.Command(g.git, "init", g.dir).Run(); err != nil {

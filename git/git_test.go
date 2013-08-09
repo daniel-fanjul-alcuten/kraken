@@ -8,6 +8,14 @@ import (
 	"testing"
 )
 
+func TestGitDir(t *testing.T) {
+
+	git := NewGit("foo")
+	if git.Dir() != "foo" {
+		t.Error(git.Dir())
+	}
+}
+
 func TestGitInit(t *testing.T) {
 
 	td := NewTempDir("")
