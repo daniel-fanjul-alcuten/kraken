@@ -5,3 +5,8 @@ type GoGetJob struct {
 	Repoquest  string
 	Request    string
 }
+
+type JobResult struct {
+	Success bool
+	Output  string
+}
