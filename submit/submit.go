@@ -1,4 +1,4 @@
-package main
+package kraken
 
 import (
 	"bufio"
@@ -14,10 +14,10 @@ import (
 	"strings"
 )
 
-func submit(git *Git, repoquest string, conn io.Writer, requests ...string) error {
+func Submit(git *Git, repoquest string, writer io.Writer, requests ...string) error {
 
-	writer := bufio.NewWriter(conn)
-	encoder := gob.NewEncoder(writer)
+	bufwriter := bufio.NewWriter(writer)
+	encoder := gob.NewEncoder(bufwriter)
 
 	for _, request := range requests {
 
@@ -65,7 +65,7 @@ func submit(git *Git, repoquest string, conn io.Writer, requests ...string) erro
 		}
 	}
 
-	if err := writer.Flush(); err != nil {
+	if err := bufwriter.Flush(); err != nil {
 		return err
 	}
 	return nil

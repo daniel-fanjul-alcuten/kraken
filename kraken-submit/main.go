@@ -5,6 +5,7 @@ import (
 	"fmt"
 	. "github.com/daniel-fanjul-alcuten/kraken"
 	. "github.com/daniel-fanjul-alcuten/kraken/git"
+	. "github.com/daniel-fanjul-alcuten/kraken/submit"
 	"log"
 	"net"
 	"os"
@@ -35,7 +36,7 @@ func main() {
 	}
 
 	args := flag.Args()
-	if err := submit(git, repoquest, conn, args...); err != nil {
+	if err := Submit(git, repoquest, conn, args...); err != nil {
 		log.Fatal(err)
 	}
 }
