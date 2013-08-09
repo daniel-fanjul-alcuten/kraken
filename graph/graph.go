@@ -1,11 +1,11 @@
-package main
+package kraken
 
 import (
 	. "github.com/daniel-fanjul-alcuten/kraken/gob"
 )
 
 //// to compile a go get-able repository
-type gojob struct {
+type goget struct {
 	importPath string
 	request    *request
 }
@@ -15,7 +15,7 @@ type request struct {
 	ref  string
 	time int64
 	// jobs in undefined order
-	jobs      []gojob
+	jobs      []goget
 	repoquest *repoquest
 	reference *reference
 }
@@ -24,7 +24,7 @@ type request struct {
 type repoquest struct {
 	name     string
 	requests map[string]*request
-	graph    *graph
+	graph    *Graph
 }
 
 // the ref in the original repository
@@ -39,21 +39,21 @@ type reference struct {
 type repository struct {
 	name       string
 	references map[string]*reference
-	graph      *graph
+	graph      *Graph
 }
 
-type graph struct {
+type Graph struct {
 	repoquests   map[string]*repoquest
 	repositories map[string]*repository
 }
 
-func newGraph() *graph {
+func NewGraph() *Graph {
 	repoquests := make(map[string]*repoquest)
 	repositories := make(map[string]*repository)
-	return &graph{repoquests, repositories}
+	return &Graph{repoquests, repositories}
 }
 
-func (j *gojob) goGetJob() GoGetJob {
+func (j *goget) goGetJob() GoGetJob {
 	repoquest := j.request.repoquest.name
 	request := j.request.ref
 	return GoGetJob{j.importPath, repoquest, request}

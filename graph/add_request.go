@@ -1,10 +1,10 @@
-package main
+package kraken
 
 import (
 	. "github.com/daniel-fanjul-alcuten/kraken/gob"
 )
 
-func (g *graph) addRequest(wreq Request) []GoGetJob {
+func (g *Graph) AddRequest(wreq Request) []GoGetJob {
 
 	rq, ok := g.repoquests[wreq.Repoquest]
 	if !ok {
@@ -30,12 +30,12 @@ func (g *graph) addRequest(wreq Request) []GoGetJob {
 
 	req, ok := rq.requests[wreq.Request]
 	if !ok {
-		jobs := make([]gojob, len(wreq.Jobs))
+		jobs := make([]goget, len(wreq.Jobs))
 		gjobs := make([]GoGetJob, len(jobs))
 		req = &request{wreq.Request, wreq.Time, jobs, rq, ref}
 		rq.requests[wreq.Request] = req
 		for i, job := range wreq.Jobs {
-			jobs[i] = gojob{job.ImportPath, req}
+			jobs[i] = goget{job.ImportPath, req}
 			gjobs[i] = jobs[i].goGetJob()
 		}
 		m, ok := ref.mrequests[wreq.Time]

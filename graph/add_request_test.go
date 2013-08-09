@@ -1,4 +1,4 @@
-package main
+package kraken
 
 import (
 	. "github.com/daniel-fanjul-alcuten/kraken/gob"
@@ -14,9 +14,9 @@ func TestAddRequest(t *testing.T) {
 	time := int64(5)
 	importPath := "github.com/daniel-fanjul-alcuten/kraken"
 
-	g := newGraph()
+	g := NewGraph()
 	jobs := []GoGetRequest{GoGetRequest{importPath}}
-	rjobs := g.addRequest(Request{repoquest, request, repository, reference, time, jobs})
+	rjobs := g.AddRequest(Request{repoquest, request, repository, reference, time, jobs})
 
 	rq := g.repoquests[repoquest]
 	if rq == nil {
@@ -42,7 +42,7 @@ func TestAddRequest(t *testing.T) {
 	if repo.name != repository {
 		t.Error(repo.name)
 	}
-	if repo.graph != (*graph)(g) {
+	if repo.graph != g {
 		t.Error(repo.graph)
 	}
 
@@ -66,7 +66,7 @@ func TestAddRequest(t *testing.T) {
 	if rq.name != repoquest {
 		t.Error(rq.name)
 	}
-	if rq.graph != (*graph)(g) {
+	if rq.graph != g {
 		t.Error(rq.graph)
 	}
 
