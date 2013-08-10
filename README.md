@@ -5,10 +5,22 @@ Description
 
 build system with the following features:
 
+* general
+ * it takes snapshots of the refs of the git repositories with the source code (see kraken-push)
+ * the snapshots are stored in git repositories too
+ * a process keep a graph in memory with metadata of all snapshots (see kraken-graph)
+ * the snapshots are registered in the graph (see kraken-submit)
+ * the workers connect to the graph and run the build steps (see kraken-work)
+
 * golang
  * compile and test repositories that are go-getable
 
-that is not ready for production because of:
+that is not ready yet for production because of:
+
+* general
+ * it tracks the creation and update of the refs, not the deletion
+ * it tests every snapshot in undefined order
+ * the results of the build steps are visible only in the logs, they are not stored
 
 * golang
  * does compile remotely only
@@ -32,6 +44,7 @@ Use 'go get':
 go get github.com/daniel-fanjul-alcuten/kraken/kraken-push
 go get github.com/daniel-fanjul-alcuten/kraken/kraken-graph
 go get github.com/daniel-fanjul-alcuten/kraken/kraken-submit
+go get github.com/daniel-fanjul-alcuten/kraken/kraken-work
 </pre>
 
 Deploy
